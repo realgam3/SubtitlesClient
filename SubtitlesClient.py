@@ -29,9 +29,9 @@ Usage:
   {prog} (-v | --version)
 
 Options:
+  -l --list                 Show subtitles engine list.
   -h --help                 Show this screen.
   -v --version              Show version.
-  -l --list                 Show subtitles engine list.
   --lang=<language>         Subtitle language (alpha2) [default: {def_language}].
   --engine=<subtitle_site>  Subtitle site              [default: {def_engine}].
 """.format(prog=path.basename(argv[0]),
