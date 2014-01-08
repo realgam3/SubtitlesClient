@@ -14,7 +14,7 @@ class SubScene(SubtitleSite):
         self.__sub_url = None
 
     def __search_subtitles(self):
-        res = self._session.get(urljoin(self.host_url, 'subtitles/release.aspx'),
+        res = self._session.get(urljoin(self.host_url, 'subtitles/release'),
                                 params={'q': self.subtitle_release},
                                 headers=self._headers)
 

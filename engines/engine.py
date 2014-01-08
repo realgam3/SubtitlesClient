@@ -23,9 +23,9 @@ SUBTITLE_SITE_LIST = {
     }
 }
 DEFAULTS = {
-    'test_release': "Captain.America.The.First.Avenger.720p.Bluray.x264-MHD",
-    'subtitle_language': "he",
-    'subtitle_engine': "Torec"
+    'test_release': 'Captain.America.The.First.Avenger.720p.Bluray.x264-MHD',
+    'subtitle_language': 'he',
+    'subtitle_engine': 'Torec'
 }
 
 
@@ -39,7 +39,7 @@ class SubtitleSite(object):
         self.subtitle_language = None
         self._session = Session()
         self._headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0'
+            'User-Agent': 'Subtitles Client'
         }
 
     @abstractmethod
@@ -48,14 +48,16 @@ class SubtitleSite(object):
 
     @abstractmethod
     def download_subtitle(self, subtitle_release, lang=DEFAULTS['subtitle_language'], test_mode=False):
-        raise NotImplementedError("Should have implemented this")
+        pass
 
     def is_subtitle_exist(self, subtitle_release, lang=DEFAULTS['subtitle_language']):
         file_properties = self.get_file_properties(subtitle_release)
         self.subtitle_release = file_properties['release_name']
         self.subtitle_language = lang
 
-        return self._get_subtitle_info()
+        if self._get_subtitle_info():
+            return True
+        return False
 
     def test_engine(self):
         if self.download_subtitle(DEFAULTS['test_release'], test_mode=True):
@@ -76,14 +78,13 @@ class SubtitleSite(object):
             host_url = sub_dict.get('host_url')
 
             #Let us import outside the engines directory from string
-            sys_path.insert(0, path.dirname(__file__))
+            engines_path = path.dirname(__file__)
+            if engines_path not in sys_path:
+                sys_path.insert(0, engines_path)
 
             #Import dynamic class items
             subtitle_module = import_module(class_lower_name)
             subtitle_class = getattr(subtitle_module, class_name)
-
-            #Rollback sys path
-            sys_path.pop(0)
 
             return subtitle_class(host_url)
 

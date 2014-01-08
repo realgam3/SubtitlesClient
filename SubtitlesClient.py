@@ -10,6 +10,7 @@ __email__ = 'realgam3@gmail.com'
 ########################################################
 
 from os import path
+from sys import argv
 from docopt import docopt
 
 from engines.engine import SubtitleSite, SUBTITLE_SITE_LIST, DEFAULTS
@@ -31,7 +32,7 @@ Options:
   -v --version              Show version.
   --lang=<language>         Subtitle Language (Alpha2) [default: {def_language}].
   --engine=<subtitle_site>  Subtitle Site              [default: {def_engine}].
-""".format(prog=path.basename(__file__),
+""".format(prog=path.basename(argv[0]),
            def_language=DEFAULTS['subtitle_language'],
            def_engine=DEFAULTS['subtitle_engine'])
 
