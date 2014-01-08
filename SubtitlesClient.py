@@ -24,14 +24,16 @@ Usage:
   {prog} download <releases_path>... [--lang=<language> | --engine=<subtitle_site>...]
   {prog} exist <releases_path>... [--lang=<language> | --engine=<subtitle_site>...]
   {prog} test [<engines>...]
+  {prog} (-l | --list)
   {prog} (-h | --help)
   {prog} (-v | --version)
 
 Options:
   -h --help                 Show this screen.
   -v --version              Show version.
-  --lang=<language>         Subtitle Language (Alpha2) [default: {def_language}].
-  --engine=<subtitle_site>  Subtitle Site              [default: {def_engine}].
+  -l --list                 Show subtitles engine list.
+  --lang=<language>         Subtitle language (alpha2) [default: {def_language}].
+  --engine=<subtitle_site>  Subtitle site              [default: {def_engine}].
 """.format(prog=path.basename(argv[0]),
            def_language=DEFAULTS['subtitle_language'],
            def_engine=DEFAULTS['subtitle_engine'])
@@ -79,13 +81,17 @@ def test_engines(engines):
 
 def main():
     args = docopt(__doc__, help=True, version='Subtitles Client %s' % __version__)
-    
+
     if args['download']:
         download_subtitles(args['<releases_path>'], args['--engine'], args['--lang'])
     elif args['exist']:
         is_subtitles_exist(args['<releases_path>'], args['--engine'], args['--lang'])
     elif args['test']:
         test_engines(args['<engines>'])
+    elif args['--list']:
+        for sub_site in SUBTITLE_SITE_LIST.keys():
+            sub_dict = SUBTITLE_SITE_LIST.get(sub_site)
+            print sub_dict.get('class_name')
 
 
 if __name__ == "__main__":
