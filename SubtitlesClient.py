@@ -21,8 +21,8 @@ __doc__ = \
 Subtitles Client
 
 Usage:
-  {prog} download <releases_path>... [--lang=<language> | --engine=<subtitle_site>...]
-  {prog} exist <releases_path>... [--lang=<language> | --engine=<subtitle_site>...]
+  {prog} download <releases_path>... [--lang=<language> --engine=<subtitle_site>...]
+  {prog} exist <releases_path>... [--lang=<language> --engine=<subtitle_site>...]
   {prog} test [<engines>...]
   {prog} (-l | --list)
   {prog} (-h | --help)

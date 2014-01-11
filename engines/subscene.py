@@ -51,11 +51,17 @@ class SubScene(SubtitleSite):
         self.subtitle_language = lang
 
         if self._get_subtitle_info():
-            local_path = self.download_file(url=urljoin(self.host_url, self.__sub_url),
-                                            session=self._session,
-                                            base_dir=file_properties['base_dir'])
-            if path.exists(local_path):
-                if test_mode:
-                    remove(local_path)
-                return local_path
+            res = self._session.get(urljoin(self.host_url, self.__sub_url),
+                                    headers=self._headers)
+
+            r = compile('<div class="download">.*?<a.*?href="(?P<url>.*?)".*?>.*?</div>', flags=DOTALL)
+            down_url = r.search(res.content)
+            if down_url:
+                local_path = self.download_file(url=urljoin(self.host_url, down_url.group('url')),
+                                                session=self._session,
+                                                base_dir=file_properties['base_dir'])
+                if path.exists(local_path):
+                    if test_mode:
+                        remove(local_path)
+                    return local_path
         return None
